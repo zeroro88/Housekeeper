@@ -1,0 +1,10 @@
+{
+  "name": "housekeeper",
+  "version": "0.0.0",
+  "dependencies": {
+    "requirejs": "~2.1.17",
+    "underscore": ">=1.5.0",
+    "bootstrap":">3.3.0",
+    "backbone.marionette": "~2.4.1"
+  }
+}
