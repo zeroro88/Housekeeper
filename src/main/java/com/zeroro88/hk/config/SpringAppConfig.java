@@ -10,6 +10,7 @@ import org.springframework.security.crypto.password.StandardPasswordEncoder;
 
 import com.zeroro88.hk.SystemApplicationListener;
 import com.zeroro88.hk.dao.DataBaseInitializer;
+import com.zeroro88.hk.mapper.DdlMapper;
 import com.zeroro88.hk.mapper.NewsEntryMapper;
 import com.zeroro88.hk.mapper.UserMapper;
 
@@ -21,16 +22,21 @@ public class SpringAppConfig {
 	private NewsEntryMapper newsEntryMapper;
 	@Resource
 	private UserMapper userMapper;
+	@Resource
+	private DdlMapper ddlMapper;
 
 	@Bean
 	public StandardPasswordEncoder standardPasswordEncoder() {
-		StandardPasswordEncoder standardPasswordEncoder = new StandardPasswordEncoder("ThisIsASecretSoChangeMe");
+		StandardPasswordEncoder standardPasswordEncoder = new StandardPasswordEncoder(
+				"ThisIsASecretSoChangeMe");
 		return standardPasswordEncoder;
 	}
 
 	@Bean(initMethod = "initDataBase")
 	public DataBaseInitializer dataBaseInitializer() {
-		DataBaseInitializer dataBaseInitializer = new DataBaseInitializer(userMapper, newsEntryMapper, standardPasswordEncoder());
+		DataBaseInitializer dataBaseInitializer = new DataBaseInitializer(
+				userMapper, newsEntryMapper, ddlMapper,
+				standardPasswordEncoder());
 		return dataBaseInitializer;
 	}
 

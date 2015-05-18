@@ -6,25 +6,31 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 import com.zeroro88.hk.entry.NewsEntry;
 import com.zeroro88.hk.entry.User;
+import com.zeroro88.hk.mapper.DdlMapper;
 import com.zeroro88.hk.mapper.NewsEntryMapper;
 import com.zeroro88.hk.mapper.UserMapper;
 
 public class DataBaseInitializer {
 	private NewsEntryMapper newsEntryMapper;
 	private UserMapper userMapper;
-
+	private DdlMapper ddlMapper;
 	private PasswordEncoder passwordEncoder;
 
 	protected DataBaseInitializer() {
 	}
 
-	public DataBaseInitializer(UserMapper userMapper, NewsEntryMapper newsEntryMapper, PasswordEncoder passwordEncoder) {
+	public DataBaseInitializer(UserMapper userMapper,
+			NewsEntryMapper newsEntryMapper, DdlMapper ddlMapper,
+			PasswordEncoder passwordEncoder) {
 		this.userMapper = userMapper;
 		this.newsEntryMapper = newsEntryMapper;
+		this.ddlMapper = ddlMapper;
 		this.passwordEncoder = passwordEncoder;
 	}
 
 	public void initDataBase() {
+		this.ddlMapper.usersDdl();
+		this.ddlMapper.newsDdl();
 		User userUser = new User("user", this.passwordEncoder.encode("user"));
 		userUser.addRole("user");
 		this.userMapper.save(userUser);
