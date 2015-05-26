@@ -8,15 +8,15 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 import org.springframework.security.crypto.password.StandardPasswordEncoder;
 
-import com.zeroro88.hk.SystemApplicationListener;
 import com.zeroro88.hk.dao.DataBaseInitializer;
 import com.zeroro88.hk.mapper.DdlMapper;
 import com.zeroro88.hk.mapper.NewsEntryMapper;
 import com.zeroro88.hk.mapper.UserMapper;
+import com.zeroro88.hk.rest.AuthenticationTokenProcessingFilter;
 
 @Configuration
-@ComponentScan(basePackages = "com.zeroro88.hk")
-@Import({ PersistenceConfig.class })
+@ComponentScan(basePackages = "com.zeroro88.hk.*")
+@Import({ PersistenceConfig.class, SecurityConfig.class })
 public class SpringAppConfig {
 	@Resource
 	private NewsEntryMapper newsEntryMapper;
@@ -27,21 +27,18 @@ public class SpringAppConfig {
 
 	@Bean
 	public StandardPasswordEncoder standardPasswordEncoder() {
-		StandardPasswordEncoder standardPasswordEncoder = new StandardPasswordEncoder(
-				"ThisIsASecretSoChangeMe");
+		StandardPasswordEncoder standardPasswordEncoder = new StandardPasswordEncoder("ThisIsASecretSoChangeMe");
 		return standardPasswordEncoder;
 	}
 
 	@Bean(initMethod = "initDataBase")
 	public DataBaseInitializer dataBaseInitializer() {
-		DataBaseInitializer dataBaseInitializer = new DataBaseInitializer(
-				userMapper, newsEntryMapper, ddlMapper,
-				standardPasswordEncoder());
+		DataBaseInitializer dataBaseInitializer = new DataBaseInitializer(userMapper, newsEntryMapper, ddlMapper, standardPasswordEncoder());
 		return dataBaseInitializer;
 	}
 
 	@Bean
-	public SystemApplicationListener applicationListener() {
-		return new SystemApplicationListener();
+	public AuthenticationTokenProcessingFilter authenticationTokenProcessingFilter() {
+		return new AuthenticationTokenProcessingFilter(userMapper);
 	}
 }
