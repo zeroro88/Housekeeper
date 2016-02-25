@@ -182,6 +182,7 @@ gulp.task('watch', ['backend-watch'], function() {
     script: path.join(__dirname, 'build/server/backend'),
     ignore: ['*'],
     watch: ['foo/'],
+    nodeArgs: ['--debug'],
     ext: 'noop'
   }).on('restart', function() {
     if (firstStart) {

@@ -4,11 +4,12 @@ import path from 'path';
 import http from 'http';
 import datasets from './datasets';
 import config from 'config';
+import dataAccessAdapter from './util/dataAccessAdapter';
 
 let app = express();
 
 app.use(compression());
-
+dataAccessAdapter.InitDB();
 let server = http.createServer(app);
 
 app.use('/datasets', datasets);
