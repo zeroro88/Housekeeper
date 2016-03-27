@@ -4,6 +4,7 @@ import path from 'path';
 import http from 'http';
 import datasets from './datasets';
 import hkevents from './hkevents';
+import jump from './jump';
 import config from 'config';
 import dataAccessAdapter from './util/dataAccessAdapter';
 import bodyParser from 'body-parser';
@@ -18,6 +19,7 @@ let server = http.createServer(app);
 
 app.use('/datasets', datasets);
 app.use('/hk', hkevents);
+app.use('/hk', jump);
 
 // In development mode, we create a proxy server to forward all
 // http request to the webpack-dev-server

@@ -1,5 +1,4 @@
 import express from 'express';
-import cars from './cars.json';
 import dataAccessAdapter from './util/dataAccessAdapter';
 
 let router = express.Router();
